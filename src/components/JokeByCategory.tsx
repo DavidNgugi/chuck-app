@@ -1,13 +1,11 @@
 import { useQuery } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import JokeContext from '../contexts/JokeContext';
 import { GET_JOKE_BY_CATEGORY } from '../graphql/queries';
-import { Joke } from '../types';
 import { Header } from './Header';
 
 export const JokeByCategory = () => {
-    const [joke, setJoke] = useState<Joke>('');
+    const [joke, setJoke] = useState<String>('');
     const { category }: any = useParams();
     const { loading: category_joke_loading, data: category_joke_data, error, refetch} = useQuery(GET_JOKE_BY_CATEGORY, {
         variables: { category: `${category}` },

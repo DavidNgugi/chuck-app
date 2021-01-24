@@ -6,7 +6,7 @@ import { Categories, Joke } from '../types';
 
 const JokeProvider = (props) => {
 
-	const [joke, setJoke] = useState<Joke>('');
+	const [joke, setJoke] = useState<String>('');
 	const [new_joke_loading, setJokeLoading] = useState<Boolean>(true);
 	const [new_categories_loading, setCategoriesLoading] = useState<Boolean>(true);
     const [categories, setCategories] = useState<Array<Categories>>([]);
