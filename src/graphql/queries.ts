@@ -18,7 +18,7 @@ export const GET_CATEGORIES = gql `
 `;
 
 export const GET_JOKE_BY_CATEGORY = gql `
-    mutation findByCategory($category: String!) {
+    query findByCategory($category: String!) {
         findByCategory(category: $category) {
             icon_url
             value
@@ -27,7 +27,7 @@ export const GET_JOKE_BY_CATEGORY = gql `
 `;
 
 export const SEARCH_TEXT = gql `
-    mutation searchJoke($query: String!){
+    query searchJoke($query: String!){
         searchJoke(query: $query) {
             icon_url
             value
