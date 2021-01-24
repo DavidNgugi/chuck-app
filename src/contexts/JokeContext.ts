@@ -1,11 +1,12 @@
 import React from 'react';
+import { Categories, Joke } from '../types';
 
 const JokeContext = React.createContext({
-    joke: <string>(''),
-    categories: <Array<String>>([]),
-    refreshJoke: () => {},
-    getCategories: () => {},
-    getByCategory: (category: string) => {}
+    joke: <Joke><unknown>(''),
+    new_joke_loading: <Boolean>(true),
+    categories: <Array<Categories>>([]),
+    new_categories_loading: <Boolean>(true),
+    refreshJoke: (): void => {}
 });
 
 export default JokeContext;

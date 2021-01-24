@@ -7,12 +7,18 @@ import { BrowserRouter } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
 import { client } from './graphql/client';
 import JokeProvider from './providers/JokeProvider';
+import { Categories } from './components/Categories';
+import { NavBar } from './components/NavBar';
 
 ReactDOM.render(
   <BrowserRouter>
       <ApolloProvider client={client}>
         <JokeProvider>
-          <App />
+          <div className="container-fluid">
+            <NavBar/>
+            <App />
+            <Categories/>
+          </div>
         </JokeProvider>
       </ApolloProvider>
     </BrowserRouter>,

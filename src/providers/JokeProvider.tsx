@@ -1,58 +1,43 @@
 import React ,{ useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import JokeContext from '../contexts/JokeContext';
-import { GET_CATEGORIES, GET_JOKE_BY_CATEGORY, GET_RANDOM_JOKE } from '../graphql/queries';
+import { GET_CATEGORIES, GET_RANDOM_JOKE } from '../graphql/queries';
 import { Categories, Joke } from '../types';
-import { useParams } from 'react-router-dom';
 
 const JokeProvider = (props) => {
 
-    const [joke, setJoke] = useState<Joke>('');
-    const [categories, setCategories] = useState<Categories>([]);
-    const { category }: any = useParams();
-    const { data: joke_data, loading: joke_loading, refetch} = useQuery(GET_RANDOM_JOKE, {
-        notifyOnNetworkStatusChange: true
-    });
-    const { loading: categories_loading, data: categories_data, error: categories_error} = useQuery(GET_CATEGORIES, {
-        notifyOnNetworkStatusChange: true
-    });
-    const { loading: category_joke_loading, data: category_joke_data, error} = useQuery(GET_JOKE_BY_CATEGORY, {
-        variables: { category: `${category}` },
-        notifyOnNetworkStatusChange: true
-    });
+	const [joke, setJoke] = useState<Joke>('');
+	const [new_joke_loading, setJokeLoading] = useState<Boolean>(true);
+	const [new_categories_loading, setCategoriesLoading] = useState<Boolean>(true);
+    const [categories, setCategories] = useState<Array<Categories>>([]);
+    let { data: joke_data, loading: joke_loading, refetch } = useQuery(GET_RANDOM_JOKE);
+    let { loading: categories_loading, data: categories_data, error: categories_error } = useQuery(GET_CATEGORIES);
+	
+	useEffect(() => setJokeLoading(joke_loading));
 
+	useEffect(() => setCategoriesLoading(categories_loading));
+    
     useEffect(() => {
         if(!joke_loading) {
-          setJoke(joke_data.joke.value);
+			setJoke(joke_data.joke.value);
         }
-    });
-
+	});
+	
     useEffect(() => {
-        console.log("data", categories_data)
-       if(!categories_data){ setCategories(categories_data.category.categories) };
-    })
+       if(!categories_loading){ 
+			setCategories(categories_data.categories);
+        };
+    });
     
-    const refreshJoke = () => {
-        refetch();
-    }
-
-    const getCategories = () => {
-
-    }
-
-    const getByCategory = (category: String) => {
-        
-    }
-
-    // if(loadingJoke || loading) return <div>Loading...</div>;
+    const refreshJoke = () => refetch();
 
     return (
         <JokeContext.Provider value={{
-            joke,
-            categories,
-            refreshJoke,
-            getCategories,
-            getByCategory
+			joke,
+			new_joke_loading,
+			categories,
+			new_categories_loading,
+            refreshJoke
         }}>
             {props.children}
         </JokeContext.Provider>
